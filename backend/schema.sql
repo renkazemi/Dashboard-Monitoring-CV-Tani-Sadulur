@@ -1,4 +1,4 @@
--- Rancangan basis data PRD bagian 9, ditambah tabel pengaturan untuk batas umur (K8).
+-- Rancangan basis data: lima tabel, termasuk pengaturan untuk batas umur batch (K8).
 -- Stok tidak disimpan sebagai angka tetap: dihitung dari transaksi produksi + alokasi_batch.
 
 CREATE TABLE IF NOT EXISTS pengguna (

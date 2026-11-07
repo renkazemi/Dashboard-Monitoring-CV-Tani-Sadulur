@@ -1,5 +1,5 @@
 /**
- * Enam jenis transaksi gudang sesuai PRD (bagian 7).
+ * Enam jenis transaksi gudang CV Tani Sadulur.
  * `prefix` dipakai untuk nomor dokumen, `alasan` menandai jenis yang
  * wajib menyertakan keterangan/alasan (K9).
  */

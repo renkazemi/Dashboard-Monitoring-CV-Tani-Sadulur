@@ -1,4 +1,4 @@
-"""Backend Flask + SQLite dashboard gudang CV Tani Sadulur (PRD bagian 9 dan 11).
+"""Backend Flask + SQLite dashboard gudang CV Tani Sadulur.
 
 Jalankan: python backend/app.py  (API di http://127.0.0.1:5000/api)
 """

@@ -1,4 +1,4 @@
-"""Uji Black Box PRD 12.1 lewat API.  Jalankan: python -m unittest backend/test_app.py -v
+"""Uji Black Box lewat API.  Jalankan: python -m unittest backend/test_app.py -v
 
 Memakai basis data sementara; gudang.db tidak tersentuh.
 """
@@ -200,7 +200,7 @@ class UjiBlackBox(unittest.TestCase):
         self.assertIn('sudah dipakai', r.get_json()['pesan'])
 
     def test_stok_dihitung_dari_transaksi(self):
-        """Sisa per batch = produksi + alokasi tambah − alokasi ambil (PRD 7), tidak pernah negatif."""
+        """Sisa per batch = produksi + alokasi tambah − alokasi ambil, tidak pernah negatif."""
         data = self.data()
         for b in data['batch']:
             self.assertGreaterEqual(b['produksiKg'] + b['penyesuaianKg'] - b['terpakaiKg'], 0, b['id'])

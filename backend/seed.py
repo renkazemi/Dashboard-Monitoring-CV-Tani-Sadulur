@@ -1,4 +1,4 @@
-"""Data contoh enam minggu (PRD 12.4), dibuat relatif terhadap tanggal hari ini.
+"""Data contoh enam minggu, dibuat relatif terhadap tanggal hari ini.
 
 Seluruh stok berasal dari transaksi yang dijalankan lewat logika server yang
 sama (FIFO, validasi), jadi angka batch selalu konsisten dengan daftar nota.

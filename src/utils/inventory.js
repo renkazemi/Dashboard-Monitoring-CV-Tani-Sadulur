@@ -49,7 +49,7 @@ export function hitungUmurBulan(tanggalProduksi, hariIni = new Date()) {
 }
 
 /**
- * Aturan PRD K8:
+ * Aturan status umur batch (K8):
  * aman jika umur < 6 bulan, waspada jika 6–10 bulan, lewat batas jika > 10 bulan.
  */
 export function tentukanStatusUmur(umurBulan, batas = BATAS_UMUR_DEFAULT) {
