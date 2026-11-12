@@ -207,14 +207,11 @@ class UjiBlackBox(unittest.TestCase):
         produksi = sum(t['beratKg'] for t in data['transaksi'] if t['jenis'] == 'produksi')
         self.assertEqual(produksi, sum(b['produksiKg'] for b in data['batch']))
 
-    def test_produksi_tercatat_tiap_minggu(self):
-        """Arus mingguan dashboard menampilkan produksi; data contoh mengisi keenam minggu."""
-        data = self.data()
-        for awal in data['periodeMinggu']:
-            akhir = (date.fromisoformat(awal) + timedelta(days=6)).isoformat()
-            self.assertTrue(any(
-                t['jenis'] == 'produksi' and awal <= t['tanggal'] <= akhir for t in data['transaksi']
-            ), awal)
+    def test_data_contoh_sama_dengan_laporan(self):
+        """Stok awal data contoh sama dengan angka pengujian di laporan akhir (Bab IV)."""
+        self.assertEqual(self.stok('tt50'), 38_650)
+        self.assertEqual(self.stok('tt25'), 16_175)
+        self.assertEqual(self.stok('tt10'), 13_000)
 
 
 if __name__ == '__main__':

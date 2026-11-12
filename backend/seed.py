@@ -19,24 +19,19 @@ PRODUK = [
     ('bahan-baku', 'Bahan Baku Kasar', 'Curah (kg)', 'BB', 'bahan-baku', 1, 0),
 ]
 
-# Batch lama sebelum periode enam minggu: (produk, umur hari, berat kg).
-# Batch tua dus 10 kg sengaja tersisa agar status Waspada dan Lewat batas
-# ikut terlihat saat demo.
-PRODUKSI_LAMA = [
-    ('tt50', 94, 30_000), ('tt25', 72, 20_000),
+# (produk, umur hari, berat kg). Data yang dipakai pada pengujian di laporan akhir
+# (Bab IV): stok awal karung 50 kg 38.650 kg, karung 25 kg 16.175 kg, dus 10 kg
+# 13.000 kg. Batch tua dus 10 kg sengaja tersisa agar status Waspada dan Lewat
+# batas ikut terlihat saat demo.
+PRODUKSI = [
+    ('tt50', 94, 30_000), ('tt50', 27, 25_000), ('tt50', 20, 20_000),
+    ('tt50', 13, 24_000), ('tt50', 6, 22_000),
+    ('tt25', 72, 20_000), ('tt25', 40, 18_000), ('tt25', 19, 11_000),
+    ('tt25', 8, 12_000),
     ('tt10', 380, 2_500), ('tt10', 336, 20_000), ('tt10', 291, 3_000),
-    ('tt10', 147, 4_000),
+    ('tt10', 147, 4_000), ('tt10', 17, 5_500),
 ]
-
-# Produksi per minggu (Senin pagi): karung 50 kg, karung 25 kg, dus 10 kg (kg).
-PRODUKSI_MINGGUAN = [
-    [15_000, 8_000, 4_000],
-    [14_000, 7_500, 3_500],
-    [16_000, 9_000, 4_500],
-    [15_000, 8_000, 4_000],
-    [16_000, 9_000, 4_000],
-    [12_000, 6_000, 3_000],
-]
+UMUR_BATCH_TT25_TERTUA = 72
 
 MASUK_MINGGUAN = [34_000, 29_500, 31_000, 36_500, 28_000, 22_500]
 
@@ -68,11 +63,10 @@ def transaksi_awal(hari):
     hasil = []
 
     senin = hari - timedelta(days=hari.weekday())
-    produksi = [(produk_id, hari - timedelta(days=umur), berat) for produk_id, umur, berat in PRODUKSI_LAMA]
-    for i, per_produk in enumerate(PRODUKSI_MINGGUAN):
-        awal = senin - timedelta(weeks=5 - i)
-        produksi += [(produk_id, awal, berat) for produk_id, berat in zip(['tt50', 'tt25', 'tt10'], per_produk)]
-    produksi.sort(key=lambda item: item[1])
+    produksi = sorted(
+        ((produk_id, hari - timedelta(days=umur), berat) for produk_id, umur, berat in PRODUKSI),
+        key=lambda item: item[1],
+    )
     for nomor, (produk_id, tanggal, berat) in enumerate(produksi, 1):
         hasil.append({
             'jenis': 'produksi', 'tanggal': tanggal.isoformat(), 'jam': '07:30',
@@ -120,7 +114,7 @@ def transaksi_awal(hari):
         'nomorDokumen': f'RTR-{ddmm(retur)}-01', 'pihak': 'Toko Berkah Jaya',
         'produkId': 'tt25', 'jumlah': 3, 'keterangan': 'Kemasan rusak saat pengiriman',
         # Batch tt25 tertua: pasti sudah habis terjual lewat FIFO sebelum tanggal retur.
-        'batchId': f"batch-tt25-{(hari - timedelta(days=PRODUKSI_LAMA[1][1])).isoformat()}",
+        'batchId': f"batch-tt25-{(hari - timedelta(days=UMUR_BATCH_TT25_TERTUA)).isoformat()}",
     })
     koreksi = hari - timedelta(days=1)
     hasil.append({
